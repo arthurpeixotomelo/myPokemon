@@ -1,14 +1,26 @@
-export default function Card () {
+type Pokemon = {
+  id: number,
+  name: string,
+  types: []
+  sprites: {
+    other: {
+      dream_world: {
+        front_default: string
+      }
+    }
+  }
+}
+
+export default function Card (pokemon: Pokemon) {
   return (
     <div>
-      <p>ID do Pokemon</p>
-      <p>Nome do Pokemon</p>
+      <p>{pokemon.id}</p>
+      <p>{pokemon.name}</p>
       <div>
         <ul>
-          <li>Tipo</li>
-          <li>Tipo</li>
+          {pokemon.types.map((types: any) => <li key={types.type.name}>{types.type.name}</li>)}
         </ul>
-        {/* imagem do pokemon */}
+        <img src={pokemon.sprites.other.dream_world.front_default} alt={pokemon.name} />
       </div>
     </div>
   )
