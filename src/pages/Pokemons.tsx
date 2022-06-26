@@ -1,33 +1,13 @@
-import Card from "../components/Card";
-import Modal from "../components/Modal";
-import { useEffect, useMemo, useState } from "react";
-import { getData, storePokemonsData } from "../functions/data";
+import Card from '../components/Card';
+import Modal from '../components/Modal';
+import { useEffect, useMemo, useState } from 'react';
+import { pokemonURL, getPokemonsPerPage, getPokemonsData } from '../functions/data';
 
 export default function Pokemons() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pokemons, setPokemons] = useState(storePokemonsData());
-  const [pokemonsData, setPokemonsData] = useState<any[]>([]);
-  const pages = []
-  const maxItens = 18
-  const totalPages = pokemons.length / maxItens
-  for (let i = 1 ; i <= totalPages ; i++) {
-    pages.push(i)
-  }
-  const urls = pokemons.filter((v: string, i: number) => i < (currentPage * maxItens) && i >= ((currentPage - 1) * maxItens)).map((pokemon: any) => pokemon.url)
-  const getPokemonData = async () => {
-    const data = await Promise.all(urls.map((url: string) => fetch(url)))
-    const pokemonsData = await Promise.all(data.map((res) => res.json()))
-    setPokemonsData(pokemonsData)
-  }
-  useEffect(() => {
-    if (pokemons === "") {
-      getData()
-    }
-   }, []);
-   useMemo(() => {
-    getPokemonData()
-   }, [pokemonsData])
-   const handlePrevClick = () => {
+  const maxCards = 18
+  const totalPages = Math.ceil(pokemonURL.length / maxCards)
+  const handlePrevClick = () => {
     if (currentPage != 1) {
       setCurrentPage(prev => prev - 1)
     }
@@ -37,9 +17,24 @@ export default function Pokemons() {
       setCurrentPage(prev => prev + 1)
     }
   }
+  const prevCards = (currentPage - 1) * maxCards
+  const currentCards = currentPage * maxCards
+  const [pokemonsInPage, setPokemonsInPage] = useState<any[]>([]);
+  const [pokemonsPerPage, setPokemonsPerPage] = useState(getPokemonsPerPage(0, maxCards));
+  const getPokemonsInPageData = async () => {
+    const data = await getPokemonsData(pokemonsPerPage)
+    setPokemonsInPage(data)
+  }
+  useEffect(() => {
+    getPokemonsInPageData()
+  })
+  useMemo(() => {
+    setPokemonsPerPage(getPokemonsPerPage(prevCards, currentCards))
+    getPokemonsInPageData()
+  }, [currentPage])
   return (
     <main>
-      <h1>{pokemons.length} Pokemons para você escolher o seu favorito</h1>
+      <h1>{pokemonURL.length} Pokemons para você escolher o seu favorito</h1>
       <label htmlFor="searchPokemons">
         Digite o nome do pokemon:
         <input
@@ -79,7 +74,7 @@ export default function Pokemons() {
         {<li>{currentPage}</li>}
         {<li onClick={handleNextClick}>&#62;</li>}
       </ul>
-      {pokemonsData.map((pokemon) => <Card key={pokemon.name} {...pokemon} />)}
+      {pokemonsInPage.map((pokemon: any) => <Card key={pokemon.name} {...pokemon} />)}
     </main>
   )
 }

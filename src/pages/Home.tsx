@@ -1,7 +1,12 @@
 import banner from '../img/banner.svg'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react';
+import { fetchData } from '../functions/data';
 
 export default function Home() {
+  useEffect(() => {
+    fetchData()
+   });
   return (
     <main>
       <div className='Text'>  
