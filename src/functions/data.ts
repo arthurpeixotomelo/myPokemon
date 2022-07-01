@@ -6,18 +6,7 @@ export const fetchData = async () => {
   return localStorage.setItem('pokemons', JSON.stringify(urls))
 }
 
-const getStoredData = () => {
-  const urls = localStorage.getItem('pokemons') || '[]'
-  const stored = JSON.parse(urls)
-  return stored
-}
-
-export const pokemonURL = getStoredData()
-
-// export function getPokemonsPerPage(itens: number) {
-//   const pokemonsInPage = pokemonURL.filter((v: any, i: number) => i < itens).map((obj: any) => obj) 
-//   return pokemonsInPage
-// }
+export const pokemonURL = JSON.parse(localStorage.getItem('pokemons') || '[]')
 
 export function getPokemonsPerPage(from: number, to: number) {
   const pokemonsInPage = pokemonURL.slice(from, to).map((obj: any) => obj) 

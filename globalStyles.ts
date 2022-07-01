@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     --space2: 1.5rem;
     --space3: 2rem;
     --space4: 4rem;
+    --space5: 6rem;
   
     --serif: Georgia, Times, "Times New Roman", serif;
     --sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -26,7 +27,8 @@ const GlobalStyle = createGlobalStyle`
     --bfull: 50%;
 
     --simpleshadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
-    --typeshadow: 0px 8px 35px;
+    --buttonshadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.5);
+    --cardshadow: 0px 8px 15px rgba(48, 57, 67, 0.12);
 
     --primary: #ffffff;
     --type: rgba(255, 255, 255, 0.5);
@@ -35,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
     --ground: #ab9842;
     --rock: #a38c21;
     --steel: #9eb7b8;
-    --eletric: #eed535;
+    --electric: #eed535;
     --water: #4592c4;
     --ice: #51c4e7;
     --normal: #a4acaf;
@@ -64,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     text-decoration: none;
+    list-style: none;
   }
   
   @media (prefers-reduced-motion: reduce) {
